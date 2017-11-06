@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.eatery.di.AppComponent;
 import com.example.eatery.di.AppModule;
 import com.example.eatery.di.DaggerAppComponent;
+import com.example.eatery.di.NetworkModule;
 
 /**
  * Created by atabek on 11/06/2017.
@@ -20,6 +21,7 @@ public class EateryApp extends Application {
         component = DaggerAppComponent
             .builder()
             .appModule(new AppModule(this))
+            .networkModule(new NetworkModule())
             .build();
     }
 
