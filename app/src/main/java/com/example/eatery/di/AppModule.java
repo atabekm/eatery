@@ -3,6 +3,9 @@ package com.example.eatery.di;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.eatery.network.EateryService;
+import com.example.eatery.presenter.ItemListPresenter;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,5 +27,10 @@ public class AppModule {
     @Provides
     Context providesApplicationContext() {
         return application.getApplicationContext();
+    }
+
+    @Provides
+    ItemListPresenter providesItemListPresenter(EateryService eateryService) {
+        return new ItemListPresenter(eateryService);
     }
 }

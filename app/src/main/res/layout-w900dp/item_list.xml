@@ -21,8 +21,6 @@
         android:name="com.example.eatery.ItemListFragment"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/standard_padding"
-        android:layout_marginRight="@dimen/standard_padding"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.example.eatery.view.activity.ItemListActivity"
         tools:listitem="@layout/item_list_content"/>

@@ -1,20 +1,17 @@
 package com.example.eatery.view;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.eatery.R;
-import com.example.eatery.model.dummy.DummyContent;
-import com.example.eatery.view.activity.ItemDetailActivity;
-import com.example.eatery.view.activity.ItemListActivity;
-import com.example.eatery.view.fragment.ItemDetailFragment;
+import com.example.eatery.model.Item;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,67 +20,60 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-        private final ItemListActivity parentActivity;
-        private final List<DummyContent.DummyItem> values;
-        private final boolean twoPane;
-        private final View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                if (twoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id);
-                    ItemDetailFragment fragment = new ItemDetailFragment();
-                    fragment.setArguments(arguments);
-                    parentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.item_detail_container, fragment)
-                        .commit();
-                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, ItemDetailActivity.class);
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
+    private List<Item> values = new ArrayList<>();
+    private View.OnClickListener onClickListener;
 
-                    context.startActivity(intent);
-                }
-            }
-        };
+    public ItemAdapter(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
-        public ItemAdapter(ItemListActivity parent, List<DummyContent.DummyItem> items, boolean twoPane) {
-            values = items;
-            parentActivity = parent;
-            this.twoPane = twoPane;
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.item_list_content, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        Item item = values.get(position);
+
+        holder.name.setText(item.getName());
+        holder.description.setText(item.getDescription());
+
+        if (item.getImageUrl() != null) {
+            holder.icon.setVisibility(View.VISIBLE);
+            Picasso
+                .with(holder.name.getContext())
+                .load(item.getImageUrl())
+                .resize(70 * 3, 70 * 3)
+                .centerCrop()
+                .into(holder.icon);
         }
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_list_content, parent, false);
-            return new ViewHolder(view);
+        holder.itemView.setOnClickListener(onClickListener);
+    }
+
+    @Override
+    public int getItemCount() {
+        return values.size();
+    }
+
+    public void updateData(List<Item> data) {
+        values = data;
+        notifyDataSetChanged();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        TextView description;
+        ImageView icon;
+
+        ViewHolder(View view) {
+            super(view);
+            name = view.findViewById(R.id.name);
+            description = view.findViewById(R.id.description);
+            icon = view.findViewById(R.id.icon);
         }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.idView.setText(values.get(position).id);
-            holder.contentView.setText(values.get(position).content);
-
-            holder.itemView.setTag(values.get(position));
-            holder.itemView.setOnClickListener(onClickListener);
-        }
-
-        @Override
-        public int getItemCount() {
-            return values.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView idView;
-            final TextView contentView;
-
-            ViewHolder(View view) {
-                super(view);
-                idView = view.findViewById(R.id.id_text);
-                contentView = view.findViewById(R.id.content);
-            }
-        }
-
+    }
 }
