@@ -1,4 +1,4 @@
-package com.example.eatery;
+package com.example.eatery.view.fragment;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.eatery.dummy.DummyContent;
+import com.example.eatery.R;
+import com.example.eatery.model.dummy.DummyContent;
+import com.example.eatery.view.activity.ItemDetailActivity;
+import com.example.eatery.view.activity.ItemListActivity;
 
 /**
  * A fragment representing a single Item detail screen.

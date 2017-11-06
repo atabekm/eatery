@@ -1,4 +1,4 @@
-package com.example.eatery;
+package com.example.eatery.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.eatery.dummy.DummyContent;
+import com.example.eatery.R;
+import com.example.eatery.model.dummy.DummyContent;
+import com.example.eatery.view.activity.ItemDetailActivity;
+import com.example.eatery.view.activity.ItemListActivity;
+import com.example.eatery.view.fragment.ItemDetailFragment;
 
 import java.util.List;
 
@@ -44,7 +48,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             }
         };
 
-        ItemAdapter(ItemListActivity parent, List<DummyContent.DummyItem> items, boolean twoPane) {
+        public ItemAdapter(ItemListActivity parent, List<DummyContent.DummyItem> items, boolean twoPane) {
             values = items;
             parentActivity = parent;
             this.twoPane = twoPane;

@@ -9,5 +9,5 @@
     android:layout_marginLeft="@dimen/standard_padding"
     android:layout_marginRight="@dimen/standard_padding"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.eatery.ItemListActivity"
+    tools:context="com.example.eatery.view.activity.ItemListActivity"
     tools:listitem="@layout/item_list_content"/>

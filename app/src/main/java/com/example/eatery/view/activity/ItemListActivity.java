@@ -1,4 +1,4 @@
-package com.example.eatery;
+package com.example.eatery.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.example.eatery.dummy.DummyContent;
+import com.example.eatery.view.ItemAdapter;
+import com.example.eatery.R;
+import com.example.eatery.model.dummy.DummyContent;
 
 /**
  * An activity representing a list of Items. This activity

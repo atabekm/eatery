@@ -1,4 +1,4 @@
-package com.example.eatery.dummy;
+package com.example.eatery.model.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
