@@ -3,4 +3,6 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="rating">Rating:</string>
     <string name="average_price">Average price:</string>
+    <string name="could_not_connect_to_network">Could not connect to network</string>
+    <string name="try_again">Try again</string>
 </resources>

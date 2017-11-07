@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.eatery.EateryApp;
 import com.example.eatery.Mvp;
@@ -30,6 +34,8 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
 
     @Inject ItemListPresenter presenter;
 
+    @BindView(R.id.error_layout) LinearLayout errorLayout;
+    @BindView(R.id.error_layout_button) Button errorLayoutButton;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
     @BindView(R.id.item_list) RecyclerView recyclerView;
 
@@ -57,6 +63,7 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
         recyclerView.setAdapter(itemAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         refreshLayout.setOnRefreshListener(() -> presenter.loadItems());
+        errorLayoutButton.setOnClickListener(v -> presenter.loadItems());
 
         presenter.setView(this);
         presenter.loadItems();
@@ -70,6 +77,16 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
     @Override
     public void setLoadingIndicator(boolean isVisible) {
         refreshLayout.setRefreshing(isVisible);
+    }
+
+    @Override
+    public void setErrorLayout(boolean isVisible) {
+        errorLayout.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private ItemClickListener itemClickListener = new ItemClickListener() {

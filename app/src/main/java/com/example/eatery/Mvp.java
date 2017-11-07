@@ -15,6 +15,8 @@ public interface Mvp {
         interface View {
             void updateItemList(List<Item> itemList);
             void setLoadingIndicator(boolean isVisible);
+            void setErrorLayout(boolean isVisible);
+            void showToast(String message);
         }
 
         interface Presenter {
