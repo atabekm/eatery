@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-    private List<Item> values = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
     private ItemListActivity.ItemClickListener onItemClickListener;
 
     public ItemAdapter(ItemListActivity.ItemClickListener onItemClickListener) {
@@ -40,14 +40,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Context context = holder.name.getContext();
         int iconSize = context.getResources().getDimensionPixelSize(R.dimen.icon_size);
-        Item item = values.get(position);
+        Item item = items.get(position);
 
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
 
-        if (item.getImageUrl() == null) {
-            holder.icon.setVisibility(View.GONE);
-        }
+        holder.icon.setVisibility(item.getImageUrl() == null ? View.GONE : View.VISIBLE);
         Picasso
             .with(context)
             .load(item.getImageUrl())
@@ -64,11 +62,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return values.size();
+        return items.size();
     }
 
     public void updateData(List<Item> data) {
-        values = data;
+        items = data;
         notifyDataSetChanged();
     }
 

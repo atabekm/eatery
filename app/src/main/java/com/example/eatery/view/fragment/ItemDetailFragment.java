@@ -28,9 +28,6 @@ public class ItemDetailFragment extends Fragment {
     @BindView(R.id.item_rating) RatingBar ratingBar;
     @BindView(R.id.item_icon) ImageView icon;
 
-    public ItemDetailFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

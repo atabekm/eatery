@@ -15,7 +15,8 @@
     
     -->
 
-    <android.support.v7.widget.RecyclerView android:id="@+id/item_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/item_list"
         android:name="com.example.eatery.ItemListFragment"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
