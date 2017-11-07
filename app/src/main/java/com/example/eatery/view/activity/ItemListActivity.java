@@ -1,19 +1,16 @@
 package com.example.eatery.view.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.example.eatery.EateryApp;
 import com.example.eatery.Mvp;
 import com.example.eatery.R;
 import com.example.eatery.model.Item;
-import com.example.eatery.model.dummy.DummyContent;
 import com.example.eatery.presenter.ItemListPresenter;
 import com.example.eatery.view.ItemAdapter;
 import com.example.eatery.view.fragment.ItemDetailFragment;
@@ -22,6 +19,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.View {
 
     private boolean twoPane;
@@ -29,10 +29,13 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
 
     @Inject ItemListPresenter presenter;
 
+    @BindView(R.id.item_list) RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+        ButterKnife.bind(this);
 
         ((EateryApp) getApplication()).getComponent().inject(this);
 
@@ -48,8 +51,7 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
             twoPane = true;
         }
 
-        itemAdapter = new ItemAdapter(onClickListener);
-        RecyclerView recyclerView = findViewById(R.id.item_list);
+        itemAdapter = new ItemAdapter(itemClickListener);
         recyclerView.setAdapter(itemAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
@@ -62,25 +64,26 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
         itemAdapter.updateData(itemList);
     }
 
-    private final View.OnClickListener onClickListener = new View.OnClickListener() {
+    private ItemClickListener itemClickListener = new ItemClickListener() {
         @Override
-        public void onClick(View view) {
-            DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+        public void onItemClick(Item item) {
             if (twoPane) {
                 Bundle arguments = new Bundle();
-                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id);
+                arguments.putSerializable(ItemDetailFragment.ARG_ITEM, item);
                 ItemDetailFragment fragment = new ItemDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
                     .commit();
             } else {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, ItemDetailActivity.class);
-                intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
-
-                context.startActivity(intent);
+                Intent intent = new Intent(ItemListActivity.this, ItemDetailActivity.class);
+                intent.putExtra(ItemDetailFragment.ARG_ITEM, item);
+                startActivity(intent);
             }
         }
     };
+
+    public interface ItemClickListener {
+        void onItemClick(Item item);
+    }
 }

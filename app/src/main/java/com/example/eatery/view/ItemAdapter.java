@@ -1,5 +1,6 @@
 package com.example.eatery.view;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.eatery.R;
 import com.example.eatery.model.Item;
+import com.example.eatery.view.activity.ItemListActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,10 +23,10 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> values = new ArrayList<>();
-    private View.OnClickListener onClickListener;
+    private ItemListActivity.ItemClickListener onItemClickListener;
 
-    public ItemAdapter(View.OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+    public ItemAdapter(ItemListActivity.ItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -36,22 +38,28 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Context context = holder.name.getContext();
+        int iconSize = context.getResources().getDimensionPixelSize(R.dimen.icon_size);
         Item item = values.get(position);
 
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
 
-        if (item.getImageUrl() != null) {
-            holder.icon.setVisibility(View.VISIBLE);
-            Picasso
-                .with(holder.name.getContext())
-                .load(item.getImageUrl())
-                .resize(70 * 3, 70 * 3)
-                .centerCrop()
-                .into(holder.icon);
+        if (item.getImageUrl() == null) {
+            holder.icon.setVisibility(View.GONE);
         }
+        Picasso
+            .with(context)
+            .load(item.getImageUrl())
+            .resize(iconSize, iconSize)
+            .centerCrop()
+            .into(holder.icon);
 
-        holder.itemView.setOnClickListener(onClickListener);
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(item);
+            }
+        });
     }
 
     @Override

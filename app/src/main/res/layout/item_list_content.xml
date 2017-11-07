@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_size"
-    android:layout_margin="@dimen/text_margin"
+    android:padding="@dimen/text_margin"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/title_text_size"
+        android:textSize="@dimen/main_text_size"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         tools:text="Padstow"/>
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textSize="@dimen/description_text_size"
+        android:textSize="@dimen/secondary_text_size"
         android:textColor="@android:color/black"
         android:layout_below="@id/name"
         android:layout_toStartOf="@id/icon"
@@ -29,10 +29,9 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/item_size"
-        android:layout_height="@dimen/item_size"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginStart="@dimen/standard_padding"
-        android:layout_alignParentEnd="true"
-        android:visibility="gone"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

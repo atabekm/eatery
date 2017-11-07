@@ -2,11 +2,13 @@ package com.example.eatery.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by atabek on 11/06/2017.
  */
 
-public class Item {
+public class Item implements Serializable {
 
     @SerializedName("name")
     private String name;

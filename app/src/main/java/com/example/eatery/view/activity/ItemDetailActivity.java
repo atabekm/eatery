@@ -1,14 +1,16 @@
 package com.example.eatery.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.example.eatery.view.fragment.ItemDetailFragment;
 import com.example.eatery.R;
+import com.example.eatery.view.fragment.ItemDetailFragment;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * An activity representing a single Item detail screen. This
@@ -18,11 +20,14 @@ import com.example.eatery.R;
  */
 public class ItemDetailActivity extends AppCompatActivity {
 
+    @BindView(R.id.detail_toolbar) Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
-        Toolbar toolbar = findViewById(R.id.detail_toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
@@ -44,8 +49,8 @@ public class ItemDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
-                getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(ItemDetailFragment.ARG_ITEM,
+                getIntent().getSerializableExtra(ItemDetailFragment.ARG_ITEM));
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -58,13 +63,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            navigateUpTo(new Intent(this, ItemListActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
