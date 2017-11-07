@@ -26,9 +26,13 @@ public class ItemListPresenter implements Mvp.ItemList.Presenter {
 
     @Override
     public void loadItems() {
+        view.setLoadingIndicator(true);
         eateryService.getItems()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(items -> view.updateItemList(items));
+            .subscribe(items -> {
+                view.updateItemList(items);
+                view.setLoadingIndicator(false);
+            });
     }
 }

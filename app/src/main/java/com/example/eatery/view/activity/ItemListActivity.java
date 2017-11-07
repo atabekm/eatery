@@ -2,6 +2,7 @@ package com.example.eatery.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,7 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
 
     @Inject ItemListPresenter presenter;
 
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
     @BindView(R.id.item_list) RecyclerView recyclerView;
 
     @Override
@@ -54,6 +56,7 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
         itemAdapter = new ItemAdapter(itemClickListener);
         recyclerView.setAdapter(itemAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        refreshLayout.setOnRefreshListener(() -> presenter.loadItems());
 
         presenter.setView(this);
         presenter.loadItems();
@@ -62,6 +65,11 @@ public class ItemListActivity extends AppCompatActivity implements Mvp.ItemList.
     @Override
     public void updateItemList(List<Item> itemList) {
         itemAdapter.updateData(itemList);
+    }
+
+    @Override
+    public void setLoadingIndicator(boolean isVisible) {
+        refreshLayout.setRefreshing(isVisible);
     }
 
     private ItemClickListener itemClickListener = new ItemClickListener() {
